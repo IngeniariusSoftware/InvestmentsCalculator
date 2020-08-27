@@ -13,7 +13,7 @@ namespace InvestCalculator
         /// <summary>
         /// Средний процент роста дохода в годах
         /// </summary>
-        public double YearPercent { get; }
+        public double YearlyPercent { get; }
         /// <summary>
         /// Горизонт планирования инвестиций в годах
         /// </summary>
@@ -24,13 +24,13 @@ namespace InvestCalculator
         /// </summary>
         /// <param name="initSum"></param>
         /// <param name="monthlyAdd"></param>
-        /// <param name="yearPercent">Процент задаётся числом например 7,2</param>
+        /// <param name="yearlyPercent">Процент задаётся числом например 7,2</param>
         /// <param name="planningHorizont"></param>
-        public CalculatorParams(double initSum, double monthlyAdd, double yearPercent, int planningHorizont)
+        public CalculatorParams(double initSum, double monthlyAdd, double yearlyPercent, int planningHorizont)
         {
             InitSum = initSum;
             MonthlyAdd = monthlyAdd;
-            YearPercent = yearPercent;
+            YearlyPercent = yearlyPercent;
             PlanningHorizont = planningHorizont;
         }
     }
