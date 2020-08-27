@@ -36,7 +36,7 @@ namespace InvestCalculator.Api
             services.AddControllers().AddNewtonsoftJson();;
             services.AddSwaggerGen();
             // registerDb
-            services.AddDbContext<LowLevelInvestmentInstrumentsDtoContext>(otions =>
+            services.AddDbContext<InvestCalculatorContext>(otions =>
                 otions.UseSqlite("Data Source=../InvestCalculator.Infrastructure/investCalc.db"));
 
             // Automapper singletone

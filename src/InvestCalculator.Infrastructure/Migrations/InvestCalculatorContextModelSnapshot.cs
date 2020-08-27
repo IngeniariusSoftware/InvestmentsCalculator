@@ -2,16 +2,14 @@
 using InvestCalculator.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InvestCalculator.Infrastructure.Migrations
 {
-    [DbContext(typeof(LowLevelInvestmentInstrumentsDtoContext))]
-    [Migration("20200827095320_Initial")]
-    partial class Initial
+    [DbContext(typeof(InvestCalculatorContext))]
+    partial class InvestCalculatorContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -11,6 +11,7 @@ namespace InvestCalculator.Portfolio
 
         public LowLevelInvestmentInstrument(long id, string name, HighLevelInvestmentInstruments investmentInstrumentType)
         {
+            Id = id;
             Name = name;
             InvestmentInstrumentType = investmentInstrumentType;
         }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using InvestCalculator.Portfolio;
 
 namespace InvestCalculator.Dtos
@@ -7,6 +8,7 @@ namespace InvestCalculator.Dtos
     /// </summary>
     public class LowLevelInvestmentInstrumentDto
     {
+        [Key]
         public long Id { get; set; }
         public string Name { get; set; }
         public HighLevelInvestmentInstruments InvestmentInstrumentType { get; set; }

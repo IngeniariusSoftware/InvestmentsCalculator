@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InvestCalculator.Infrastructure
 {
-    public class LowLevelInvestmentInstrumentsDtoContext: DbContext
+    public class InvestCalculatorContext: DbContext
     
     {
-        public LowLevelInvestmentInstrumentsDtoContext(DbContextOptions<LowLevelInvestmentInstrumentsDtoContext> options) :
+        public InvestCalculatorContext(DbContextOptions<InvestCalculatorContext> options) :
             base(options)
         {
             

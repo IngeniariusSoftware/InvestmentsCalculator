@@ -17,11 +17,11 @@ namespace InvestCalculator.Api.Controllers
     {
         private readonly ILogger<DebugController> _logger;
 
-        private LowLevelInvestmentInstrumentsDtoContext _dbDtoContext;
+        private InvestCalculatorContext _dbDtoContext;
 
         private IMapper _mapper;
 
-        public DebugController(ILogger<DebugController> logger, LowLevelInvestmentInstrumentsDtoContext dtoContext, IMapper mapper)
+        public DebugController(ILogger<DebugController> logger, InvestCalculatorContext dtoContext, IMapper mapper)
         {
             _logger = logger;
             _dbDtoContext = dtoContext;
@@ -29,13 +29,14 @@ namespace InvestCalculator.Api.Controllers
         }
 
         [HttpGet]
+        [Route("/api/[controller]/investTools")]
         public IEnumerable<LowLevelInvestmentInstrument> Get()
         {
             return _dbDtoContext.InvestmentInstruments.Select(x=>_mapper.Map<LowLevelInvestmentInstrumentDto, LowLevelInvestmentInstrument>(x));
         }
 
         [HttpPost]
-        [Route("api/calc")]
+        [Route("/api/[controller]/calc")]
         public CalculationResults GetCalcResults([FromBody]CalculatorParamsDto @params)
         {
             var calcParams = _mapper.Map<CalculatorParamsDto, CalculatorParams>(@params);
@@ -43,6 +44,14 @@ namespace InvestCalculator.Api.Controllers
             {
                 return calculator.CalculationResultsIgnoringFirst();
             }
+        }
+        
+        [HttpPost]
+        [Route("/api/[controller]/investTools")]
+        public async Task GetCalcResults([FromBody]LowLevelInvestmentInstrumentDto dto)
+        {
+            await _dbDtoContext.InvestmentInstruments.AddAsync(dto);
+            await _dbDtoContext.SaveChangesAsync();
         }
     }
 }
