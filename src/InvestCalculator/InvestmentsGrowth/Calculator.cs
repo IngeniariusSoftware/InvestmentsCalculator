@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation;
+using InvestCalculator.Validators;
 
 namespace InvestCalculator
 {
@@ -16,7 +18,12 @@ namespace InvestCalculator
 
         public Calculator(CalculatorParams @params)
         {
-            _params = @params;
+            // Валидация входных данных
+            using (var validator = new CalculatorParamsValidator())
+            {
+                validator.ValidateAndThrow(@params);
+                _params = @params;
+            }
         }
 
         public void Dispose()
@@ -75,6 +82,8 @@ namespace InvestCalculator
             var remainingMonths = 12 - investStartDate.Month + 1;
             var resultSum = initSum + monthlyAdd * remainingMonths;
             // Пересчёт процента с тем что за прошедшие месяцы не придёт
+            // Todo Ошибочно брать оставшийся процент как среднегодовой * кол-во оставшихся месяцев / 12
+            // необходимо пересчитать как сложный процент
             resultSum *= 1 + yearlyPercent * (remainingMonths / 12.0);
             return resultSum;
         }

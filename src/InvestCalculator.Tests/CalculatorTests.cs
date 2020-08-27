@@ -54,5 +54,22 @@ namespace InvestCalculator.Tests
                 }
             }
         }
+
+        [TestCase(-1, 1, 0.1, 1, "2020/01/01"  )]
+        [TestCase(1, -1, 0.1, 1, "2020/01/01"  )]
+        [TestCase(1, 1, -0.1, 1, "2020/01/01"  )]
+        [TestCase(1, 1, 0.1, 0, "2020/01/01"  )]
+        public void ValidateCalcParamsException(double initSum, double monthlyAdd, double yearlyPercent, int planningHorizont, DateTime investStartDate)
+        {
+            var @params = new CalculatorParams(initSum, monthlyAdd, yearlyPercent, planningHorizont, investStartDate);
+            Assert.Throws<FluentValidation.ValidationException>(() => { new Calculator(@params);});
+        }
+        
+        [TestCase(1, 1, 0.0001, 1, "2020/01/01"  )]
+        public void ValidateCalcParamsSuccess(double initSum, double monthlyAdd, double yearlyPercent, int planningHorizont, DateTime investStartDate)
+        {
+            var @params = new CalculatorParams(initSum, monthlyAdd, yearlyPercent, planningHorizont, investStartDate);
+            Assert.DoesNotThrow(() => { new Calculator(@params);});
+        }
     }
 }
