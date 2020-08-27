@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace InvestCalculator
 {
     /// <summary>
-    /// Необходимо переделать расчёт с циклов на функции
+    ///     Необходимо переделать расчёт с циклов на функции
     /// </summary>
-    public class Calculator: IDisposable
+    public class Calculator : IDisposable
     {
         /// <summary>
-        /// Расчётные параметры
+        ///     Расчётные параметры
         /// </summary>
         private CalculatorParams _params;
 
@@ -18,60 +19,64 @@ namespace InvestCalculator
             _params = @params;
         }
 
+        public void Dispose()
+        {
+            _params = null;
+        }
+
         //Todo Добавить флаг периода начисления процентов
-        
+
         /// <summary>
-        /// Расчёт производится с тем условием, что год только начался
+        ///     Расчёт производится с тем условием, что год только начался
         /// </summary>
         /// <returns></returns>
         public CalculationResults CalculateResultSum()
+        {
+            var calcResultByYear = CalcSumByYears(_params.InitSum, _params.YearlyPercent, _params.MonthlyAdd,
+                _params.PlanningHorizont, _params.InvestStartDate.Year);
+            return new CalculationResults(calcResultByYear, _params);
+        }
+
+
+        public CalculationResults CalculationResultsIgnoringFirst()
+        {
+            var firstYearSum = CalcFirstYearIncome(_params.InitSum, _params.MonthlyAdd, _params.YearlyPercent, _params.InvestStartDate);
+            // добавление результатов первого года
+            var calcResultByYear = new Dictionary<long, double> {{_params.InvestStartDate.Year, firstYearSum}};
+            CalcSumByYears(firstYearSum, _params.YearlyPercent, _params.MonthlyAdd,
+                    _params.PlanningHorizont - 1, _params.InvestStartDate.Year + 1).ToList()
+                .ForEach(x => calcResultByYear.Add(x.Key, x.Value));
+            return new CalculationResults(calcResultByYear, _params);
+        }
+
+        private static Dictionary<long, double>
+            CalcSumByYears(double initSum, double yearlyPercent, double monthlyAdd, long planningHorizont,
+                long firstYear)
         {
             // допущения вся сумма внесенная за год добавляется в конце, 
             // для правильности необходимо изменить горизонт планирования до
             // месяцев и рассчитывать годовой процент через месячный
             // процент начисляется ежегодно и после всех взносов
             var calcResultByYear = new Dictionary<long, double>();
-            var resultSum = _params.InitSum;
-            for (int i = 0; i < _params.PlanningHorizont; i++)
+            var resultSum = initSum;
+            for (var i = firstYear; i < firstYear + planningHorizont; i++)
             {
-                resultSum += _params.MonthlyAdd * 12;
-                resultSum *= 1 + _params.YearlyPercent / 100.0;
-                calcResultByYear.Add(DateTime.Now.Year+i, resultSum);
+                resultSum += monthlyAdd * 12;
+                resultSum *= 1 + yearlyPercent;
+                calcResultByYear.Add(i, resultSum);
             }
-            return new CalculationResults(calcResultByYear, _params);
+
+            return calcResultByYear;
         }
 
-        public CalculationResults CalculationResultsIgnoringFirst()
-        {
-            var firstYearSum = CalcFirstYearIncome(_params.InitSum, _params.MonthlyAdd, _params.YearlyPercent);
-            
-            // добавление результатов первого года
-            var calcResultByYear = new Dictionary<long, double>() {{DateTime.Now.Year, firstYearSum}};
-            
-            //Todo переделать на отдельную функцию
-            var resultSum = firstYearSum;
-            for (int i = 1; i < _params.PlanningHorizont; i++)
-            {
-                resultSum += _params.MonthlyAdd * 12;
-                resultSum *= 1 + _params.YearlyPercent / 100.0;
-                calcResultByYear.Add(DateTime.Now.Year+i, resultSum);
-            }
-            return new CalculationResults(calcResultByYear, _params);
-        }
-
-        private double CalcFirstYearIncome(double initSum, double monthlyAdd, double yearlyPercent)
+        private static double CalcFirstYearIncome(double initSum, double monthlyAdd, double yearlyPercent, DateTime investStartDate)
         {
             // +1, т.к если текущий месяц, то он всё еще остался
-            var remainingMonths = 12 - DateTime.Now.Month + 1;
-            var resultSum = _params.InitSum + _params.MonthlyAdd * remainingMonths;
+            var remainingMonths = 12 - investStartDate.Month + 1;
+            var resultSum = initSum + monthlyAdd * remainingMonths;
             // Пересчёт процента с тем что за прошедшие месяцы не придёт
-            resultSum *= 1+_params.YearlyPercent * (remainingMonths / 12.0) / 100.0;
-            return  resultSum;
-        }
-
-        public void Dispose()
-        {
-            _params = null;
+            resultSum *= 1 + yearlyPercent * (remainingMonths / 12.0);
+            return resultSum;
         }
     }
 }

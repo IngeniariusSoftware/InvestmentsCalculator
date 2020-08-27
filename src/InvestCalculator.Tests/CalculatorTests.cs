@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace InvestCalculator.Tests
         [Test]
         public void CalcResultTest()
         {
-            var @params = new CalculatorParams(20000d, 10000d, 13.5, 10);
+            var @params = new CalculatorParams(20000d, 10000d, 0.12, 10, DateTime.Now);
             using ( var calc = new Calculator(@params))
             {
                 var result = calc.CalculateResultSum();
@@ -23,9 +24,11 @@ namespace InvestCalculator.Tests
         }
         
         [Test]
-        public void CalcResultWithCurrentMonthLessThanYearly()
+        [TestCase("2020/01/01")]
+        [TestCase("2020/02/02")]
+        public void CalcResultWithCurrentMonthLessThanYearly(DateTime investStartDate)
         {
-            var @params = new CalculatorParams(20000d, 10000d, 13.5, 10);
+            var @params = new CalculatorParams(20000d, 10000d, 0.12, 10, investStartDate);
             using ( var calc = new Calculator(@params))
             {
                 var fullFirstYearResults = calc.CalculateResultSum();
@@ -37,7 +40,14 @@ namespace InvestCalculator.Tests
                 Assert.Greater(partFirstYearResults.ResultSum, 0);
                 TestContext.WriteLine(JsonConvert.SerializeObject(partFirstYearResults, Formatting.Indented));
 
-                Assert.Greater(fullFirstYearResults.ResultSum, partFirstYearResults.ResultSum);
+                if (@params.InvestStartDate.Month != 1)
+                {
+                    Assert.Greater(fullFirstYearResults.ResultSum, partFirstYearResults.ResultSum);
+                }
+                else
+                {
+                    Assert.AreEqual(fullFirstYearResults.ResultSum, partFirstYearResults.ResultSum, 0.1);
+                }
             }
         }
     }
