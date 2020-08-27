@@ -23,6 +23,10 @@ namespace InvestCalculator.Tests
             }
         }
         
+        /// <summary>
+        /// <see href="https://stackoverflow.com/questions/7114604/nunit-parameterized-tests-with-datetime"/>>
+        /// </summary>
+        /// <param name="investStartDate"></param>
         [Test]
         [TestCase("2020/01/01")]
         [TestCase("2020/02/02")]
