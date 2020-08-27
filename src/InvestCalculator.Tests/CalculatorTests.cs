@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using FluentValidation;
+using InvestCalculator.Dtos;
 using InvestCalculator.Validators;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -59,7 +60,7 @@ namespace InvestCalculator.Tests
         public void ValidateCalcParamsException(double initSum, double monthlyAdd, double yearlyPercent,
             int planningHorizont, DateTime investStartDate)
         {
-            var @params = new CalculatorParams(initSum, monthlyAdd, yearlyPercent, planningHorizont, investStartDate);
+            var @params = new CalculatorParamsDto(initSum, monthlyAdd, yearlyPercent, planningHorizont, investStartDate);
             Assert.Throws<ValidationException>(() =>
             {
                 var validator = new CalculatorParamsValidator();
@@ -71,7 +72,7 @@ namespace InvestCalculator.Tests
         public void ValidateCalcParamsSuccess(double initSum, double monthlyAdd, double yearlyPercent,
             int planningHorizont, DateTime investStartDate)
         {
-            var @params = new CalculatorParams(initSum, monthlyAdd, yearlyPercent, planningHorizont, investStartDate);
+            var @params = new CalculatorParamsDto(initSum, monthlyAdd, yearlyPercent, planningHorizont, investStartDate);
             Assert.DoesNotThrow(() =>
             {
                 var validator = new CalculatorParamsValidator();

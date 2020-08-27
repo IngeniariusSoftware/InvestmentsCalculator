@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentValidation;
-using InvestCalculator.Validators;
 
 namespace InvestCalculator
 {
@@ -18,12 +16,7 @@ namespace InvestCalculator
 
         public Calculator(CalculatorParams @params)
         {
-            // Валидация входных данных
-            using (var validator = new CalculatorParamsValidator())
-            {
-                validator.ValidateAndThrow(@params);
-                _params = @params;
-            }
+            _params = @params;
         }
 
         public void Dispose()

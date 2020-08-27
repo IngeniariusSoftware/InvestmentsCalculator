@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\InvestCalculator.Infrastructure\InvestCalculator.Infrastructure.csproj" />
       <ProjectReference Include="..\InvestCalculator\InvestCalculator.csproj" />
     </ItemGroup>
 

@@ -1,9 +1,10 @@
 using System;
 using FluentValidation;
+using InvestCalculator.Dtos;
 
 namespace InvestCalculator.Validators
 {
-    public class CalculatorParamsValidator : AbstractValidator<CalculatorParams>, IDisposable
+    public class CalculatorParamsValidator : AbstractValidator<CalculatorParamsDto>, IDisposable
     {
         private const double MIN_INIT_SUM = 0;
 
