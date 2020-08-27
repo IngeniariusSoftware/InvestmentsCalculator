@@ -1,3 +1,4 @@
+![InvestmentCalculator](https://github.com/Kirya522/InvestmentsCalculator/workflows/default/badge.svg)
 # Калькулятор инвестиций на основе сложного процента
 
 ## Входные параметры
