@@ -25,16 +25,22 @@ namespace InvestCalculator.Dtos
         public int PlanningHorizont { get; set; }
 
         /// <summary>
+        /// Является ли счёт ИИИС
+        /// </summary>
+        public bool IsIis { get; set; } = false;
+
+        /// <summary>
         ///     Дата начла инвестиций
         /// </summary>
         public DateTime InvestStartDate { get; set; }
-        public CalculatorParamsDto(double initSum, double monthlyAdd, double yearlyPercent, int planningHorizont, DateTime investStartDate)
+        public CalculatorParamsDto(double initSum, double monthlyAdd, double yearlyPercent, int planningHorizont, DateTime investStartDate, bool isIis=false)
         {
             InitSum = initSum;
             MonthlyAdd = monthlyAdd;
             YearlyPercent = yearlyPercent;
             PlanningHorizont = planningHorizont;
             InvestStartDate = investStartDate;
+            IsIis = isIis;
         }
 
         public CalculatorParamsDto()
