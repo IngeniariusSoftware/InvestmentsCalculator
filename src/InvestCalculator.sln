@@ -10,6 +10,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvestCalculator.Api", "Inv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvestCalculator.Contracts", "InvestCalculator.Contracts\InvestCalculator.Contracts.csproj", "{EEBFC314-CE45-44E1-B77A-C6AF0985A3B8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F3321E7C-B866-4E7B-ABDD-F257F1695B30}"
+ProjectSection(SolutionItems) = preProject
+	NuGet.Config = NuGet.Config
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
